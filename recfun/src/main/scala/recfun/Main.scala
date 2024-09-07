@@ -15,6 +15,8 @@ object Main {
    * Exercise 1
    */
   def pascal(c: Int, r: Int): Int = {
+    if (c < 0 || r < 0 || c > r)
+      throw new IllegalArgumentException("input Index is Invalid")
     if (c == 0 || r == 0) 1
     else if (c == r) 1
     else pascal(c-1, r-1) + pascal(c, r-1)
