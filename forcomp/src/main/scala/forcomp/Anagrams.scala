@@ -175,6 +175,22 @@ object Anagrams {
    *
    *  Note: There is only one anagram of an empty sentence.
    */
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = ???
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
 
+    def recursive(occur: Occurrences): List[Sentence] = {
+      
+      if(occur.isEmpty) List(List())
+
+      else{
+        for{
+          combination <- combinations(occur)
+          word <- dictionaryByOccurrences.getOrElse(combination, List())
+          remainingOccur = subtract(occur, combination)
+          sentence <- recursive(remainingOccur)
+        } yield word :: sentence
+      }
+    }
+    
+    recursive(sentenceOccurrences(sentence))
+  }
 }
