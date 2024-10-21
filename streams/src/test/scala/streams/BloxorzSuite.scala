@@ -64,4 +64,35 @@ class BloxorzSuite extends FunSuite {
       assert(solution.length == optsolution.length)
     }
   }
+
+  test("Finding Neighbors test") {
+    new Level1 {
+      val initBlock = Block(Pos(1, 1), Pos(1, 1))
+      val history = List(Left, Up)
+
+      val expected = Set(
+        (Block(Pos(1, 2), Pos(1, 3)), List(Right, Left, Up)),
+        (Block(Pos(2, 1), Pos(3, 1)), List(Down, Left, Up))
+      )
+
+      assert(neighborsWithHistory(initBlock, history).toSet == expected)
+    }
+  }
+
+  test("Avoiding Circles test") {
+    new Level1{
+      val neighbors = Set(
+        (Block(Pos(1, 2), Pos(1, 3)), List(Right, Left)),
+        (Block(Pos(2, 1), Pos(3, 1)), List(Down, Left))
+      ).toStream
+      
+      val explored = Set(Block(Pos(1, 2), Pos(1, 3)), Block(Pos(1, 1), Pos(1, 1)))
+
+      val expected = Set(
+        (Block(Pos(2, 1), Pos(3, 1)), List(Down, Left))
+      )
+
+      assert(newNeighborsOnly(neighbors, explored).toSet == expected)
+    }
+  }
 }
